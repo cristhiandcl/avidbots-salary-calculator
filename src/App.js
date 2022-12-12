@@ -1,9 +1,10 @@
 import "./App.css";
+import Calculator from "./Calculator";
 
 function App() {
   return (
     <div className="App">
-      <p className="text-green-300">Avidbots calculator</p>
+      <Calculator />
     </div>
   );
 }
