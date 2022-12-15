@@ -142,7 +142,7 @@ function Calculator() {
       <div className="flex justify-between text-red-600">
         <p>-</p>
         <p>
-          Healt and pension: ${" "}
+          Health and pension: ${" "}
           {new Intl.NumberFormat("es-CO").format(parseInt(summary.healthPe))}{" "}
           COP
         </p>
