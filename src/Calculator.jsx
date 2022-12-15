@@ -1,35 +1,44 @@
 import { useState } from "react";
 
 function Calculator() {
-  const [formData, setFormData] = useState({
-    nightSurcharge: "0",
-    daySurchargeO: "0",
-    daySurchargeR: "0",
-    nightHolidayO: "0",
-    nightHolidayR: "0",
-  });
+  const [formData, setFormData] = useState([
+    { name: "Night Surcharge", value: "0" },
+    { name: "Day Surcharge (O)", value: "0" },
+    { name: "Day Surcharge (R)", value: "0" },
+    { name: "Night Holiday (O)", value: "0" },
+    { name: "Night Holiday (R)", value: "0" },
+  ]);
   const [salary, setSalary] = useState(0);
+  const [summary, setSummary] = useState({});
+
+  const handleStatecall = (event) => {
+    setFormData(
+      formData.map((elem) =>
+        elem.name === event.target.name
+          ? {
+              ...elem,
+              value: event.target.value,
+            }
+          : elem
+      )
+    );
+  };
 
   const handleState = (event) => {
-    event.target.name === "nightSurcharge" &&
-      setFormData({ ...formData, nightSurcharge: event.target.value });
-    event.target.name === "daySurchargeO" &&
-      setFormData({ ...formData, daySurchargeO: event.target.value });
-    event.target.name === "daySurchargeR" &&
-      setFormData({ ...formData, daySurchargeR: event.target.value });
-    event.target.name === "nightHolidayO" &&
-      setFormData({ ...formData, nightHolidayO: event.target.value });
-    event.target.name === "nightHolidayR" &&
-      setFormData({ ...formData, nightHolidayR: event.target.value });
+    event.target.name === "Night Surcharge" && handleStatecall(event);
+    event.target.name === "Day Surcharge (O)" && handleStatecall(event);
+    event.target.name === "Day Surcharge (R)" && handleStatecall(event);
+    event.target.name === "Night Holiday (O)" && handleStatecall(event);
+    event.target.name === "Night Holiday (R)" && handleStatecall(event);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const nightSurcharge = 2734.38 * parseInt(formData.nightSurcharge);
-    const daySurchargeO = 5859.38 * parseInt(formData.daySurchargeO);
-    const daySurchargeR = 13671.88 * parseInt(formData.daySurchargeR);
-    const nightHolidayO = 8593.75 * parseInt(formData.nightHolidayO);
-    const nightHolidayR = 16406.25 * parseInt(formData.nightHolidayR);
+    const nightSurcharge = 2734.38 * parseInt(formData[0].value);
+    const daySurchargeO = 5859.38 * parseInt(formData[1].value);
+    const daySurchargeR = 13671.88 * parseInt(formData[2].value);
+    const nightHolidayO = 8593.75 * parseInt(formData[3].value);
+    const nightHolidayR = 16406.25 * parseInt(formData[4].value);
 
     const connectivity = 117172;
 
@@ -48,13 +57,108 @@ function Calculator() {
         parseInt(salarySurcharges + connectivity - healthPe)
       )
     );
-    // console.log(salary);
+
+    setSummary({
+      baseSalary: 1875000,
+      nightSurcharge,
+      daySurchargeO,
+      daySurchargeR,
+      nightHolidayO,
+      nightHolidayR,
+      connectivity,
+      healthPe,
+      subtotal: salarySurcharges,
+    });
   };
+  const cellsRender = formData.map((elem, i) => (
+    <div className="flex flex-col" key={i}>
+      <label className="">{elem.name}</label>
+      <input
+        className="text-center border"
+        type="text"
+        placeholder="Value"
+        value={elem.value}
+        onChange={handleState}
+        name={elem.name}
+      />
+    </div>
+  ));
+
+  const summaryRender = (
+    <div className="text-gray-400">
+      <p className="mb-4">
+        Base Salary: ${" "}
+        {new Intl.NumberFormat("es-CO").format(parseInt(summary.baseSalary))}{" "}
+        COP
+      </p>
+      <div className="flex justify-between text-green-300">
+        <p>+</p>
+        <p>
+          Night Surcharge: ${" "}
+          {new Intl.NumberFormat("es-CO").format(
+            parseInt(summary.nightSurcharge)
+          )}{" "}
+          COP
+        </p>
+      </div>
+      <div className="flex justify-between text-green-300">
+        <p>+</p>
+        <p>
+          Day Surcharge: ${" "}
+          {summary.daySurchargeO !== 0
+            ? new Intl.NumberFormat("es-CO").format(
+                parseInt(summary.daySurchargeO)
+              )
+            : new Intl.NumberFormat("es-CO").format(
+                parseInt(summary.daySurchargeR)
+              )}{" "}
+          COP
+        </p>
+      </div>
+      <div className="flex justify-between text-green-300">
+        <p>+</p>
+        <p>
+          Night Holiday$
+          {summary.nightHolidayO !== 0
+            ? new Intl.NumberFormat("es-CO").format(
+                parseInt(summary.nightHolidayO)
+              )
+            : new Intl.NumberFormat("es-CO").format(
+                parseInt(summary.nightHolidayR)
+              )}{" "}
+          COP
+        </p>
+      </div>
+      <div className="flex justify-between text-green-300">
+        <p>+</p>
+        <p>
+          Connectivity: ${" "}
+          {new Intl.NumberFormat("es-CO").format(
+            parseInt(summary.connectivity)
+          )}{" "}
+          COP
+        </p>
+      </div>
+      <div className="flex justify-between text-red-600">
+        <p>-</p>
+        <p>
+          Healt and pension: ${" "}
+          {new Intl.NumberFormat("es-CO").format(parseInt(summary.healthPe))}{" "}
+          COP
+        </p>
+      </div>
+      <p className="mt-4">
+        SubTotal: $
+        {new Intl.NumberFormat("es-CO").format(parseInt(summary.subtotal))} COP
+      </p>
+    </div>
+  );
+  // console.log(summary);
 
   return (
     <div className="h-screen border-4 flex items-center justify-center px-6">
       <div className="space-y-12">
-        <p className="text-center  text-5xl md:text-8xl sm:text-6xl text-green-300 font-bold">
+        <p className="text-center text-4xl sm:text-5xl md:text-7xl xl:w-full w-2/3 mx-auto text-green-300 font-bold">
           Avibots Salary Calculator
         </p>
         <form
@@ -63,62 +167,9 @@ function Calculator() {
         >
           <div className="space-y-12 text-center">
             <div className="grid xl:grid-cols-5 xl:space-x-4 text-xl gap-y-6">
-              <div className="flex flex-col">
-                <label className="">Night surcharge</label>
-                <input
-                  className="text-center border"
-                  type="text"
-                  placeholder="Value"
-                  value={formData.nightSurcharge}
-                  onChange={handleState}
-                  name="nightSurcharge"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label>Day surcharge (O)</label>
-                <input
-                  className="text-center border"
-                  type="text"
-                  placeholder="Value"
-                  value={formData.daySurchargeO}
-                  onChange={handleState}
-                  name="daySurchargeO"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label>Day surcharge (R)</label>
-                <input
-                  className="text-center border"
-                  type="text"
-                  placeholder="Value"
-                  value={formData.daySurchargeR}
-                  onChange={handleState}
-                  name="daySurchargeR"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label>Night holiday (O)</label>
-                <input
-                  className="text-center border"
-                  type="text"
-                  placeholder="Value"
-                  value={formData.nightHolidayO}
-                  onChange={handleState}
-                  name="nightHolidayO"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label>Night holiday (R)</label>
-                <input
-                  className="text-center border"
-                  type="text"
-                  placeholder="Value"
-                  value={formData.nightHolidayR}
-                  onChange={handleState}
-                  name="nightHolidayR"
-                />
-              </div>
+              {cellsRender}
             </div>
+            {Object.keys(summary).length > 0 && summaryRender}
             {salary !== 0 && (
               <p className="text-green-300 font-bold text-4xl">
                 $ {salary} COP
