@@ -86,12 +86,12 @@ function Calculator() {
 
   const summaryRender = (
     <div className="text-gray-400">
-      <p className="mb-4">
+      <p className="pb-4">
         Base Salary: ${" "}
         {new Intl.NumberFormat("es-CO").format(parseInt(summary.baseSalary))}{" "}
         COP
       </p>
-      <div className="flex justify-between text-green-300">
+      <div className="flex justify-between xl:w-2/4 mx-auto text-green-300">
         <p>+</p>
         <p>
           Night Surcharge: ${" "}
@@ -101,7 +101,7 @@ function Calculator() {
           COP
         </p>
       </div>
-      <div className="flex justify-between text-green-300">
+      <div className="flex justify-between xl:w-2/4 mx-auto text-green-300">
         <p>+</p>
         <p>
           Day Surcharge: ${" "}
@@ -115,10 +115,10 @@ function Calculator() {
           COP
         </p>
       </div>
-      <div className="flex justify-between text-green-300">
+      <div className="flex justify-between xl:w-2/4 mx-auto text-green-300">
         <p>+</p>
         <p>
-          Night Holiday$
+          Night Holiday: $
           {summary.nightHolidayO !== 0
             ? new Intl.NumberFormat("es-CO").format(
                 parseInt(summary.nightHolidayO)
@@ -129,7 +129,7 @@ function Calculator() {
           COP
         </p>
       </div>
-      <div className="flex justify-between text-green-300">
+      <div className="flex justify-between xl:w-2/4 mx-auto text-green-300">
         <p>+</p>
         <p>
           Connectivity: ${" "}
@@ -139,15 +139,15 @@ function Calculator() {
           COP
         </p>
       </div>
-      <div className="flex justify-between text-red-600">
+      <div className="flex justify-between xl:w-2/4 mx-auto text-red-600">
         <p>-</p>
         <p>
-          Health and pension: ${" "}
+          Health and Pension: ${" "}
           {new Intl.NumberFormat("es-CO").format(parseInt(summary.healthPe))}{" "}
           COP
         </p>
       </div>
-      <p className="mt-4">
+      <p className="pt-4">
         SubTotal: $
         {new Intl.NumberFormat("es-CO").format(parseInt(summary.subtotal))} COP
       </p>
@@ -156,9 +156,9 @@ function Calculator() {
   // console.log(summary);
 
   return (
-    <div className="h-screen border-4 flex items-center justify-center px-6">
+    <div className="min-h-screen flex items-center justify-center py-8">
       <div className="space-y-12">
-        <p className="text-center text-4xl sm:text-5xl md:text-7xl xl:w-full w-2/3 mx-auto text-green-300 font-bold">
+        <p className="text-center text-3xl sm:text-5xl md:text-7xl xl:w-full w-2/3 mx-auto text-green-300 font-bold">
           Avibots Salary Calculator
         </p>
         <form
