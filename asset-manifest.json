@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/avidbots-salary-calculator/static/css/main.19ce773c.css",
-    "main.js": "/avidbots-salary-calculator/static/js/main.947511f1.js",
+    "main.js": "/avidbots-salary-calculator/static/js/main.f235b6ed.js",
     "index.html": "/avidbots-salary-calculator/index.html",
     "main.19ce773c.css.map": "/avidbots-salary-calculator/static/css/main.19ce773c.css.map",
-    "main.947511f1.js.map": "/avidbots-salary-calculator/static/js/main.947511f1.js.map"
+    "main.f235b6ed.js.map": "/avidbots-salary-calculator/static/js/main.f235b6ed.js.map"
   },
   "entrypoints": [
     "static/css/main.19ce773c.css",
-    "static/js/main.947511f1.js"
+    "static/js/main.f235b6ed.js"
   ]
 }
