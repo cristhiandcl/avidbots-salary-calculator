@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SummaryRender from "./components/SummaryRender";
 
 function Calculator() {
   const [formData, setFormData] = useState([
@@ -10,6 +11,7 @@ function Calculator() {
   ]);
   const [salary, setSalary] = useState(0);
   const [summary, setSummary] = useState({});
+  const [isCollapse, setIsCollapse] = useState(false);
 
   const handleStatecall = (event) => {
     setFormData(
@@ -84,75 +86,10 @@ function Calculator() {
     </div>
   ));
 
-  const summaryRender = (
-    <div className="text-gray-400">
-      <p className="pb-4">
-        Base Salary: ${" "}
-        {new Intl.NumberFormat("es-CO").format(parseInt(summary.baseSalary))}{" "}
-        COP
-      </p>
-      <div className="flex justify-between xl:w-2/4 mx-auto text-green-300">
-        <p>+</p>
-        <p>
-          Night Surcharge: ${" "}
-          {new Intl.NumberFormat("es-CO").format(
-            parseInt(summary.nightSurcharge)
-          )}{" "}
-          COP
-        </p>
-      </div>
-      <div className="flex justify-between xl:w-2/4 mx-auto text-green-300">
-        <p>+</p>
-        <p>
-          Day Surcharge: ${" "}
-          {summary.daySurchargeO !== 0
-            ? new Intl.NumberFormat("es-CO").format(
-                parseInt(summary.daySurchargeO)
-              )
-            : new Intl.NumberFormat("es-CO").format(
-                parseInt(summary.daySurchargeR)
-              )}{" "}
-          COP
-        </p>
-      </div>
-      <div className="flex justify-between xl:w-2/4 mx-auto text-green-300">
-        <p>+</p>
-        <p>
-          Night Holiday: $
-          {summary.nightHolidayO !== 0
-            ? new Intl.NumberFormat("es-CO").format(
-                parseInt(summary.nightHolidayO)
-              )
-            : new Intl.NumberFormat("es-CO").format(
-                parseInt(summary.nightHolidayR)
-              )}{" "}
-          COP
-        </p>
-      </div>
-      <div className="flex justify-between xl:w-2/4 mx-auto text-green-300">
-        <p>+</p>
-        <p>
-          Connectivity: ${" "}
-          {new Intl.NumberFormat("es-CO").format(
-            parseInt(summary.connectivity)
-          )}{" "}
-          COP
-        </p>
-      </div>
-      <div className="flex justify-between xl:w-2/4 mx-auto text-red-600">
-        <p>-</p>
-        <p>
-          Health and Pension: ${" "}
-          {new Intl.NumberFormat("es-CO").format(parseInt(summary.healthPe))}{" "}
-          COP
-        </p>
-      </div>
-      <p className="pt-4">
-        SubTotal: $
-        {new Intl.NumberFormat("es-CO").format(parseInt(summary.subtotal))} COP
-      </p>
-    </div>
-  );
+  const toggle = () => {
+    setIsCollapse(!isCollapse);
+  };
+
   // console.log(summary);
 
   return (
@@ -169,7 +106,29 @@ function Calculator() {
             <div className="grid xl:grid-cols-5 xl:space-x-4 text-xl gap-y-6">
               {cellsRender}
             </div>
-            {Object.keys(summary).length > 0 && summaryRender}
+            {/* {Object.keys(summary).length > 0 && (
+              <SummaryRender summary={summary} />
+            )} */}
+            {Object.keys(summary).length > 0 && (
+              <div
+                onClick={toggle}
+                className="text-2xl flex justify-center space-x-4 cursor-pointer"
+              >
+                <p className="leading-none">Summary</p>
+                {isCollapse ? (
+                  <p className="rotate-90 text-green-300 leading-none text-3xl">
+                    {"<"}
+                  </p>
+                ) : (
+                  <p className="rotate-90 text-green-300 leading-none text-3xl">
+                    {">"}
+                  </p>
+                )}
+              </div>
+            )}
+            {Object.keys(summary).length > 0 && isCollapse && (
+              <SummaryRender summary={summary} />
+            )}
             {salary !== 0 && (
               <p className="text-green-300 font-bold text-4xl">
                 $ {salary} COP
